@@ -4,7 +4,7 @@ class Solution {
     trim(s);
     if (s.empty())
       return false;
-    
+
     bool seenNum = false;
     bool seenDot = false;
     bool seenE = false;
