@@ -1,6 +1,3 @@
-#include <iostream>
-#include <unordered_map>
-
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -11,17 +8,18 @@
  */
 class Solution {
 public:
-   unordered_set<ListNode*> storage; 
     bool hasCycle(ListNode *head) {
-        ListNode* temp=head;
-        while(temp!=NULL){
-           auto num=temp->next;
-           storage.insert(temp);
 
-           if(storage.count(num)>0){
-              return true;
-           }
-           temp=temp->next;
+        ListNode* fast=head;
+        ListNode* slow=head;
+
+        while(fast!=NULL && fast->next!=NULL){
+            fast=fast->next->next;
+            slow=slow->next;
+
+            if(fast==slow){
+                return true;
+            }
 
         }
 
