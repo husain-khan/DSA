@@ -1,16 +1,31 @@
+#include <iostream>
+#include <unordered_map>
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
+   unordered_set<ListNode*> storage; 
     bool hasCycle(ListNode *head) {
-        unordered_set<ListNode*> visited;
+        ListNode* temp=head;
+        while(temp!=NULL){
+           auto num=temp->next;
+           storage.insert(temp);
 
-        while (head != NULL) {
-            if (visited.find(head) != visited.end()) {
-                return true; // Cycle detected
-            }
-            visited.insert(head);
-            head = head->next;
+           if(storage.count(num)>0){
+              return true;
+           }
+           temp=temp->next;
+
         }
 
-        return false; // No cycle if end of list is reached
+        return false;
+        
     }
 };
