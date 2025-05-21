@@ -10,14 +10,6 @@
  */
 class Solution {
 public:
-
-   void delete_this_node(ListNode* p){
-       ListNode* to_delete=p->next;
-       p->next=to_delete->next;
-       delete(to_delete);
-   }
-
-
     ListNode* deleteMiddle(ListNode* head) {
         ListNode* fast=head;
         ListNode* slow=head;
@@ -32,7 +24,9 @@ public:
             slow=slow->next;
         }
         
-        delete_this_node(prev);
+         ListNode* to_delete=prev->next;
+         prev->next=to_delete->next;
+         delete(to_delete);
         
         return head;
     }
