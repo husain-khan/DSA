@@ -1,26 +1,28 @@
+#include <bits/stdc++.h>
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        ListNode *pointerA = headA;
-        ListNode *pointerB = headB;
-        
-        while (pointerA != pointerB) {
-            // Move pointerA one step forward
-            if (pointerA) {
-                pointerA = pointerA->next;
-            } else {
-                pointerA = headB; // Redirect to the head of list B
-            }
-            
-            // Move pointerB one step forward
-            if (pointerB) {
-                pointerB = pointerB->next;
-            } else {
-                pointerB = headA; // Redirect to the head of list A
-            }
+        unordered_map<ListNode*,int> store;
+        ListNode* tempA=headA;
+        ListNode* tempB=headB;
+        while(tempA!=NULL){
+            store[tempA]=1;
+            tempA=tempA->next;
         }
-        
-        // Return the intersection node or nullptr
-        return pointerA;
+        while(tempB!=NULL){
+            if(store[tempB]==1){
+                return tempB;
+            }
+            tempB=tempB->next;
+        }
+        return NULL;
     }
 };
