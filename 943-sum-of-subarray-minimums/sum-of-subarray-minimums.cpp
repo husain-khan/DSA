@@ -1,39 +1,34 @@
 class Solution {
 public:
 
-    int next_smallest_element(vector<int>& num,int element,int index,int siz){
-       int count=1;
-       for(int i=index+1;i<siz;i++){
-        if(num[i]<=element){
-            break;
-        }
-            count++;
-       }
-       return count;
+   int sumSubarrayMins(vector<int>& arr) {
+    int n = arr.size();
+    vector<int> left(n), right(n);
+    stack<int> s;
+
+    // Previous Less
+    for (int i = 0; i < n; ++i) {
+        while (!s.empty() && arr[s.top()] > arr[i]) s.pop();
+        left[i] = s.empty() ? i + 1 : i - s.top();
+        s.push(i);
     }
-      
-  int previous_smallest_element(vector<int>& num,int element,int index,int siz){
-       int count=1;
-       for(int i=index-1;i>=0;i--){
-        if(num[i]<element){
-            break;
-        }
-            count++;
-                  
-       }
-    
-       return count;
+
+    // Clear stack for next phase
+    while (!s.empty()) s.pop();
+
+    // Next Less or Equal
+    for (int i = n - 1; i >= 0; --i) {
+        while (!s.empty() && arr[s.top()] >= arr[i]) s.pop();
+        right[i] = s.empty() ? n - i : s.top() - i;
+        s.push(i);
     }
-          
-    int sumSubarrayMins(vector<int>& arr) {
-        long long total=0;
-        int n=arr.size();
-        for(int i=0;i<n;i++){
-           
-           int right=next_smallest_element(arr,arr[i],i,n);
-           int left=previous_smallest_element(arr,arr[i],i,n);
-          total = (total + (long long)arr[i] * left * right) % 1000000007;
-        }
-        return total;
+
+    // Calculate result
+    long long res = 0;
+    for (int i = 0; i < n; ++i) {
+        res = (res + (long long)arr[i] * left[i] * right[i]) % 1000000007;
     }
+    return res;
+}
+
 };
