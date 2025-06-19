@@ -1,19 +1,40 @@
 class Solution {
- public:
-  vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-    vector<int> ans;
-    deque<int> maxQ;
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> ans;
+        deque<int> dQ;  // store indices
 
-    for (int i = 0; i < nums.size(); ++i) {
-      while (!maxQ.empty() && maxQ.back() < nums[i])
-        maxQ.pop_back();
-      maxQ.push_back(nums[i]);
-      if (i >= k && nums[i - k] == maxQ.front())  // out-of-bounds
-        maxQ.pop_front();
-      if (i >= k - 1)
-        ans.push_back(maxQ.front());
+        if (k == 0 || n == 0) return ans;
+
+        // Process first k elements (first window)
+        for (int i = 0; i < k; i++) {
+            // Remove smaller elements from back
+            while (!dQ.empty() && nums[dQ.back()] < nums[i]) {
+                dQ.pop_back();
+            }
+            dQ.push_back(i);
+        }
+        ans.push_back(nums[dQ.front()]);  // max of first window
+
+        // Process rest of the elements
+        for (int i = k; i < n; i++) {
+            // Remove indices out of this window
+            while (!dQ.empty() && dQ.front() <= i - k) {
+                dQ.pop_front();
+            }
+
+            // Remove smaller elements from back
+            while (!dQ.empty() && nums[dQ.back()] < nums[i]) {
+                dQ.pop_back();
+            }
+
+            dQ.push_back(i);
+
+            // Current max is at front
+            ans.push_back(nums[dQ.front()]);
+        }
+
+        return ans;
     }
-
-    return ans;
-  }
 };
