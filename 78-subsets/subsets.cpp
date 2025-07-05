@@ -1,22 +1,30 @@
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
+    vector<vector<int>> ans;  // member variable to store all subsets
+    
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> result;  // To store all subsets
-        vector<int> subset;         // Temporary subset
-        backtrack(0, nums, subset, result);
-        return result;
+        ans.clear();            // clear previous results if any
+        vector<int> current;    // temporary vector to build subsets
+        backtrack(nums, 0, current);
+        return ans;             // return the updated ans
     }
     
 private:
-    void backtrack(int index, vector<int>& nums, vector<int>& subset, vector<vector<int>>& result) {
-        // Add the current subset to the result
-        result.push_back(subset);
-        
-        // Explore further subsets
-        for (int i = index; i < nums.size(); ++i) {
-            subset.push_back(nums[i]);  // Include nums[i] in the subset
-            backtrack(i + 1, nums, subset, result);  // Recur for the next elements
-            subset.pop_back();  // Backtrack: remove nums[i] from the subset
+    void backtrack(const vector<int>& nums, int index, vector<int>& current) {
+        if (index == nums.size()) {
+            ans.push_back(current);  // update member variable here
+            return;
         }
+        
+        // Exclude nums[index]
+        backtrack(nums, index + 1, current);
+        
+        // Include nums[index]
+        current.push_back(nums[index]);
+        backtrack(nums, index + 1, current);
+        current.pop_back();  // backtrack
     }
 };
