@@ -17,12 +17,19 @@ public:
      traversal(node,ans);
      return ans;
     }
-    void traversal(TreeNode* node, vector<int>&ans){
-           if(node==NULL){
-            return;
-        }
-        ans.push_back(node->val);
-        traversal(node->left,ans);
-        traversal(node->right,ans);
+void traversal(TreeNode* node, vector<int>& ans) {
+    if (node == nullptr) return;
+    stack<TreeNode*> st;
+    st.push(node);
+    while (!st.empty()) {
+        TreeNode* curr = st.top();
+        st.pop();
+        ans.push_back(curr->val);
+        // Push right child first so left is processed first
+        if (curr->right) st.push(curr->right);
+        if (curr->left) st.push(curr->left);
     }
+}
+
+
 };
