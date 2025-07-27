@@ -1,21 +1,37 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
- public:
-  int maxPathSum(TreeNode* root) {
-    int ans = INT_MIN;
-    maxPathSumDownFrom(root, ans);
-    return ans;
-  }
+public:
+    int maxPathSum(TreeNode* root) {
+        int sum=0;
+        int maxi=INT_MIN;
+        solve(root,maxi);
+        return maxi;
+    }
+   
+    int solve(TreeNode* node, int &maxi) {
+        if (node == nullptr) return 0;
 
- private:
-  // Returns the maximum path sum starting from the current root, where
-  // root->val is always included.
-  int maxPathSumDownFrom(TreeNode* root, int& ans) {
-    if (root == nullptr)
-      return 0;
+        // Only take positive paths; if negative, consider as 0
+        int left = max(0, solve(node->left, maxi));
+        int right = max(0, solve(node->right, maxi));
 
-    const int l = max(0, maxPathSumDownFrom(root->left, ans));
-    const int r = max(0, maxPathSumDownFrom(root->right, ans));
-    ans = max(ans, root->val + l + r);
-    return root->val + max(l, r);
-  }
+        // Max path through the current node
+        int currentPathSum = node->val + left + right;
+
+        // Update global maximum
+        maxi = max(maxi, currentPathSum);
+
+        // Return the max gain from either left or right plus current node
+        return node->val + max(left, right);
+    }
 };
