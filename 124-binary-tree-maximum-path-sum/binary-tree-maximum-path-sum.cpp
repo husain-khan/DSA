@@ -20,20 +20,17 @@ public:
      int solve(TreeNode* node, int &maxi) {
         if (node == nullptr) return 0;
 
-        TreeNode* left = node->left;
-        TreeNode* right = node->right;
-
         // Recursive call to left and right, and discard negative paths by using max(0, ...)
-        int l = max(0, solve(left, maxi));
-        int r = max(0, solve(right, maxi));
+        int leftsum = max(0, solve(node->left, maxi));
+        int rightsum = max(0, solve(node->right, maxi));
 
         // Current path sum including both left and right child and the current node
-        int currentSum = l + r + node->val;
+        int currentSum = leftsum + rightsum + node->val;
 
         // Update global maximum if currentSum is higher
         maxi = max(maxi, currentSum);
 
         // Return max gain if we go through one child (for recursion/parent node)
-        return node->val + max(l, r);
+        return node->val + max(leftsum, rightsum);
     }
 };
