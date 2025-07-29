@@ -26,7 +26,7 @@ public:
         bool flag=false;
         
         while(!q.empty()){
-           
+            flag=!flag;
             vector<int>temp;
             int size=q.size();
             for(int i=0;i<size;i++){
@@ -36,11 +36,14 @@ public:
                 if(curr->left!=nullptr)q.push(curr->left);
                 if(curr->right!=nullptr)q.push(curr->right);
             }
-             if (flag) {
-                reverse(temp.begin(), temp.end());
+            if(flag==false){
+                reverse(temp.begin(),temp.end());
+                ans.push_back(temp);
+
             }
+            else{
             ans.push_back(temp);
-            flag = !flag;
+            }
         }
         return ans;
     }
