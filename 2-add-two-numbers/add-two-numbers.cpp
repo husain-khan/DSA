@@ -10,36 +10,50 @@
  */
 class Solution {
 public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* dummy;
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) 
+    {
+        ListNode* sum = new ListNode();
+        ListNode* currentSumNode = nullptr;
+        int carry = 0;
 
-        ListNode* temp1=l1;
-        ListNode* temp2=l2;
-        stack<int> ans;
-        int carry=0;
-        while(temp1!=NULL|| temp2!=NULL){
+        while(l1 || l2 || carry > 0)
+        {
+            if (currentSumNode == nullptr)
+            {
+                currentSumNode = sum;
+            }
+            else
+            {
+                ListNode* lastNode = currentSumNode;
+                currentSumNode = new ListNode();
+                lastNode->next = currentSumNode;
+            }
 
-            int n = (temp1 != NULL) ? temp1->val : 0;
-            int m = (temp2 != NULL) ? temp2->val : 0;
+            if (l1)
+            {
+                currentSumNode->val += l1->val;
+                l1 = l1->next;
+            }
+            if (l2)
+            {
+                currentSumNode->val += l2->val;
+                l2 = l2->next;
+            }
 
-            int sum=n+m+carry;
-            carry=sum/10;
-            int digit=sum%10;
-            ans.push(digit);
-            
-            if (temp1 != NULL) temp1 = temp1->next;
-            if (temp2 != NULL) temp2 = temp2->next;
-            
+            currentSumNode->val += carry;
+
+
+            if (currentSumNode->val >= 10)
+            {
+                currentSumNode->val -= 10;
+                carry = 1;
+            }
+            else
+            {
+                carry = 0;
+            }
         }
-        if(carry) ans.push(carry);
-        ListNode* head=NULL;
 
-        while(!ans.empty()){
-            ListNode* newnode=new ListNode(ans.top());
-            ans.pop();
-            newnode->next=head;
-            head=newnode;
-        }
-        return head;
+        return sum;
     }
 };
