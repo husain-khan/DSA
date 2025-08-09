@@ -1,19 +1,30 @@
 class Solution {
 public:
-    void sortColors(std::vector<int>& nums) {
-        int left = 0, right = nums.size() - 1, current = 0;
-        
-        while (current <= right) {
-            if (nums[current] == 0) {
-                std::swap(nums[left], nums[current]);
-                left++;
-                current++;
-            } else if (nums[current] == 2) {
-                std::swap(nums[right], nums[current]);
-                right--;
-            } else {
-                current++;
-            }
+    void sortColors(vector<int>& nums) {
+        int countzero=0;
+        int countone=0;
+        int counttwo=0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]==0)countzero++;
+            if(nums[i]==1)countone++;
+            if(nums[i]==2)counttwo++;
         }
+        int sum=countzero+countone+counttwo;
+        int j=0;
+            while(countzero!=0 && j!=sum){
+                nums[j]=0;
+                countzero--;
+                j++;
+            }
+             while(countone!=0 && j!=sum){
+                nums[j]=1;
+                countone--;
+                j++;
+            }
+             while(counttwo!=0 && j!=sum){
+                nums[j]=2;
+                counttwo--;
+                j++;
+            }
     }
 };
