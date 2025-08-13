@@ -4,7 +4,7 @@ public:
         unordered_map<long long,long long> store;
 
         // #include <climits>
-for (long long i = 3; i <= LLONG_MAX / 3; i *= 3) {
+for (long long i = 3; i <= LLONG_MAX /3; i *= 3) {
     store[i]++;
 }
 
