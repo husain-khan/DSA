@@ -5,6 +5,7 @@ public:
         vector<int> lr(n,1);
         vector<int> rl(n,1);
         int ans=0;
+         int sum=0;
         for(int i=1;i<n;i++){
             if(ratings[i]>ratings[i-1]){
                 lr[i]=lr[i-1]+1;
@@ -15,7 +16,7 @@ public:
                rl[i-1]=rl[i]+1;
             }
         }
-        int sum=0;
+       
         for(int i=0;i<n;i++){
             sum=max(lr[i],rl[i]);
             // cout<<sum;
