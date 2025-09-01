@@ -4,21 +4,21 @@ public:
         int n=nums.size();
         int i=0;
         vector<int>dp(n,-1);
-        int sum=0;
-       return helper(i,n,nums,dp,sum);
+
+       return helper(i,n,nums,dp);
         
     }
 
-    int helper(int i,int n,vector<int>nums,vector<int>&dp,int sum){
+    int helper(int i,int n,vector<int>nums,vector<int>&dp){
        if(i>=n){
-        return sum;
+        return 0;
        }
        if(dp[i]!=-1){
         return dp[i];
        }
-       int choose=helper(i+2,n,nums,dp,sum)+nums[i];
+       int choose=helper(i+2,n,nums,dp)+nums[i];
 
-       int notchoose=helper(i+1,n,nums,dp,sum);
+       int notchoose=helper(i+1,n,nums,dp);
        dp[i]=max(choose,notchoose);
        return dp[i];
     }
