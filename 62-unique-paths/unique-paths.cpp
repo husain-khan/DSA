@@ -1,12 +1,12 @@
 class Solution {
 public:
     int uniquePaths(int m, int n) {
-        int count=0;
+
         vector<vector<int>> dp(m,vector<int>(n,-1));
-        return helper(m-1,n-1,count,dp);
+        return helper(m-1,n-1,dp);
     }
 
-    int helper(int m,int n,int &count,vector<vector<int>> &dp){
+    int helper(int m,int n,vector<vector<int>> &dp){
         if(m<0||n<0){
         return 0;
         }
@@ -16,7 +16,7 @@ public:
         if(dp[m][n]!=-1){
             return dp[m][n];
         }
-         dp[m][n]=helper(m,n-1,count,dp)+helper(m-1,n,count,dp);
+         dp[m][n]=helper(m,n-1,dp)+helper(m-1,n,dp);
         return dp[m][n];
         
     }
