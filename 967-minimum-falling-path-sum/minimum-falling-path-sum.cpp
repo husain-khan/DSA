@@ -1,77 +1,31 @@
-int dp[101][101];
-
-int n;
-
-
-
-int find(int x, int y, vector<vector<int>>& g)
-
-{
-
-    if(x == n)
-
-        return 0;
-
-
-
-    if(dp[x][y] != -100000)
-
-        return dp[x][y];
-
-
-
-    int ans = g[x][y] + find(x+1, y, g);
-
-
-
-    if(y-1>=0)
-
-        ans = min(ans, g[x][y] + find(x+1, y-1, g) );
-
-
-
-    if(y+1!=n)
-
-        ans = min(ans, g[x][y] + find(x+1, y+1, g) );
-
-    
-
-    return dp[x][y] = ans;
-
-}
-
-
-
 class Solution {
-
 public:
+    int n;
+    vector<vector<int>> dp;
 
-    int minFallingPathSum(vector<vector<int>>& mat) {
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        n = matrix.size();
+        dp.assign(n, vector<int>(n, INT_MAX));
 
-        
-
-        n = mat.size();
-
-        int ans = 1e9;
-
-        
-
-        for(int I=0; I<101; ++I)
-
-            for(int j=0; j<101; ++j)
-
-                dp[I][j] = -100000;
-
-
-
-        for(int I=0; I<mat.size(); ++I)
-
-            ans = min(ans, find(0, I, mat));
-
-        
-
+        int ans = INT_MAX;
+        for (int col = 0; col < n; col++) {
+            ans = min(ans, dfs(0, col, matrix));
+        }
         return ans;
-
     }
 
+    int dfs(int row, int col, vector<vector<int>>& matrix) {
+        if (col < 0 || col >= n) return INT_MAX;
+
+        if (row == n - 1) return matrix[row][col];
+
+        if (dp[row][col] != INT_MAX) return dp[row][col];
+
+        int down = dfs(row + 1, col, matrix);
+        int left = dfs(row + 1, col - 1, matrix);
+        int right = dfs(row + 1, col + 1, matrix);
+
+        dp[row][col] = matrix[row][col] + min(down, min(left, right));
+        return dp[row][col];
+    }
 };
