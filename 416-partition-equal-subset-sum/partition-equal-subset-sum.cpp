@@ -1,28 +1,33 @@
 class Solution {
- public:
-  bool canPartition(vector<int>& nums) {
-    const int sum = accumulate(nums.begin(), nums.end(), 0);
-    if (sum % 2 == 1)
-      return false;
-    return knapsack(nums, sum / 2);
-  }
-
- private:
-  bool knapsack(const vector<int>& nums, int subsetSum) {
-    const int n = nums.size();
-    // dp[i][j] := true if j can be formed by nums[0..i)
-    vector<vector<bool>> dp(n + 1, vector<bool>(subsetSum + 1));
-    dp[0][0] = true;
-
-    for (int i = 1; i <= n; ++i) {
-      const int num = nums[i - 1];
-      for (int j = 0; j <= subsetSum; ++j)
-        if (j < num)
-          dp[i][j] = dp[i - 1][j];
-        else
-          dp[i][j] = dp[i - 1][j] || dp[i - 1][j - num];
+public:
+    bool canPartition(vector<int>& arr) {
+         int n=arr.size();
+         int sum=0;
+         for(int i=0;i<n;i++){
+            sum=sum+arr[i];
+         }
+        if(sum%2!=0) return false;
+        int x=sum/2;
+        vector<vector<int>>dp(n+1,vector<int>(sum+1,-1));
+        return helper(arr,x,n,0,dp)==1?true:false;
     }
-
-    return dp[n][subsetSum];
-  }
+    
+    int helper(vector<int>&arr,int target,int n,int idx,vector<vector<int>>&dp){
+        
+        if(target==0){
+                return 1;
+            }
+        if(idx==n ||target<0){
+            return 0;
+        }
+        if(dp[idx][target]!=-1){
+            return  dp[idx][target];
+        }
+        
+        int choose=helper(arr,target-arr[idx],n,idx+1,dp);
+        int nochoose=helper(arr,target,n,idx+1,dp);
+        
+        dp[idx][target]=max(choose,nochoose);
+        return dp[idx][target]; 
+    }
 };
