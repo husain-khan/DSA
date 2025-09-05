@@ -8,7 +8,7 @@ public:
          }
         if(sum%2!=0) return false;
         int x=sum/2;
-        vector<vector<int>>dp(n+1,vector<int>(sum+1,-1));
+        vector<vector<int>>dp(n+1,vector<int>(x+1,-1));
         return helper(arr,x,n,0,dp)==1?true:false;
     }
     
