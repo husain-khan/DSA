@@ -1,40 +1,32 @@
-#include <algorithm>
-#include <vector>
-#include <string>
-using namespace std;
-
 class Solution {
 public:
     string reverseWords(string s) {
-        vector<string> words;
-        int n = s.length();
-        int i = 0;
-        
-        // Extract words from the string
-        while (i < n) {
-            // Skip leading spaces
-            while (i < n && s[i] == ' ') i++;
-            if (i >= n) break;
+        stack<string> st;        
+        int n=s.size();
+        string ans;
+        int i=0;
+        string word;
+        while (i < n && s[i] == ' ') i++;
+        while(i<=n){
             
-            // Find the end of the current word
-            int j = i;
-            while (j < n && s[j] != ' ') j++;
+          if(i==n||s[i]==' '){
+            if (!word.empty()){st.push(word);
+            word="";
+            }
+          }
+          else{
             
-            // Extract and store the word
-            words.push_back(s.substr(i, j - i));
-            i = j;
+              word.push_back(s[i]);
+          }
+
+            i++;
         }
-        
-        // Reverse the order of words
-        reverse(words.begin(), words.end());
-        
-        // Construct the result string
-        string result;
-        for (int k = 0; k < words.size(); ++k) {
-            if (k > 0) result += " ";
-            result += words[k];
+
+        while(!st.empty()){
+            ans.append(st.top());
+            st.pop();
+            if(!st.empty()) ans.push_back(' ');
         }
-        
-        return result;
+        return ans;
     }
 };
