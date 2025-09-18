@@ -1,32 +1,38 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        stack<string> st;        
-        int n=s.size();
-        string ans;
-        int i=0;
+        int n = s.size();
+        int i = n - 1;
         string word;
-        while (i < n && s[i] == ' ') i++;
-        while(i<=n){
-            
-          if(i==n||s[i]==' '){
-            if (!word.empty()){st.push(word);
-            word="";
+        string ans;
+
+        // Skip trailing spaces
+        while (i >= 0 && s[i] == ' ') i--;
+
+        while (i >= 0) {
+            if (s[i] != ' ') {
+                word.push_back(s[i]);
+                i--;
+            } else {
+                // Reverse the collected word and append to ans
+                reverse(word.begin(), word.end());
+                ans.append(word);
+                ans.push_back(' ');
+                word.clear();
+
+                // Skip spaces between words
+                while (i >= 0 && s[i] == ' ') i--;
             }
-          }
-          else{
-            
-              word.push_back(s[i]);
-          }
-
-            i++;
         }
 
-        while(!st.empty()){
-            ans.append(st.top());
-            st.pop();
-            if(!st.empty()) ans.push_back(' ');
+        // Append last word if any
+        if (!word.empty()) {
+            reverse(word.begin(), word.end());
+            ans.append(word);
+        } else if (!ans.empty() && ans.back() == ' ') {
+            ans.pop_back();  // Remove trailing space if needed
         }
+
         return ans;
     }
 };
